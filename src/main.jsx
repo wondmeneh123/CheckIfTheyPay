@@ -1,16 +1,20 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
-import App from "./App.jsx";
-import Casher from "./Casher.jsx";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import CheckReceipt from "./Pages/CheckReceipt.jsx";
+import CreateEmplyee from "./Pages/CreateEmplyee.jsx";
+import Emplyee from "./Pages/Emplyee.jsx";
+import Report from "./Pages/Report.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<App />} />
-        <Route path="/casher" element={<Casher />} />
+        <Route path="/" element={<CheckReceipt />} />
+        <Route path="/create" element={<CreateEmplyee />} />
+        <Route path="/employee" element={<Emplyee />} />
+        <Route path="/report" element={<Report />} />
       </Routes>
     </BrowserRouter>
   </StrictMode>
