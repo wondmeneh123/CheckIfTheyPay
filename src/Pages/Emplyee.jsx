@@ -36,11 +36,13 @@ const Emplyee = () => {
   );
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
   return (
-    <div className="flex">
+    <div className="flex flex-col lg:flex-row">
+      {/* Sidebar (hidden on mobile) */}
       <Sidebar />
+
       <div className="flex-1 p-6 bg-gray-100">
         <div className="flex items-center justify-between">
-          <h1 className="text-2xl font-bold mb-4">Employees</h1>
+          <h1 className="text-2xl font-bold mb-4 mt-20">Employees</h1>
           <Link
             className="bg-indigo-500 text-white px-4 py-2 rounded hover:bg-indigo-600 transition"
             to="/create"
@@ -48,6 +50,7 @@ const Emplyee = () => {
             Add New
           </Link>
         </div>
+
         {loading ? (
           <p className="text-center text-gray-500">Loading...</p>
         ) : (
@@ -93,6 +96,7 @@ const Emplyee = () => {
                 </tbody>
               </table>
             </div>
+
             {/* Pagination */}
             <div className="flex justify-center items-center mt-4">
               <nav className="flex space-x-2">

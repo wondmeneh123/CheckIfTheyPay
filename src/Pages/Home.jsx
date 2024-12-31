@@ -28,7 +28,7 @@ const Home = () => {
     <div className="flex w-full min-h-screen bg-gray-100 ">
       <Sidebar />
       <div className="flex-1 p-6">
-        <h1 className="text-3xl font-bold mb-6 text-center">
+        <h1 className="text-3xl font-bold mb-6 text-center mt-20">
           Pyramid Hotel Dashboard
         </h1>
 

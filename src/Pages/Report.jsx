@@ -20,6 +20,9 @@ const Report = () => {
   const [waiters, setWaiters] = useState([]);
   const receiptRef = useRef(); // Reference for printable content
 
+  const employeesPerPage = 10; // Number of receipts per page
+  const [currentPage, setCurrentPage] = useState(1);
+
   // Fetch receipts
   useEffect(() => {
     const fetchReceipts = async () => {
@@ -122,18 +125,35 @@ const Report = () => {
     setFilteredReceipts(filtered);
   }, [filters, receipts]);
 
+  // Pagination logic
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+  // Calculate current page receipts
+  const indexOfLastReceipt = currentPage * employeesPerPage;
+  const indexOfFirstReceipt = indexOfLastReceipt - employeesPerPage;
+  const currentReceipts = filteredReceipts.slice(
+    indexOfFirstReceipt,
+    indexOfLastReceipt
+  );
+
   const reactToPrintFn = useReactToPrint({ receiptRef });
+
   return (
-    <div className="flex w-full">
+    <div className="flex flex-col lg:flex-row">
+      {/* Sidebar (hidden on mobile, drawer for mobile) */}
       <Sidebar />
-      <div className="min-h-screen bg-gray-100 p-6 w-full">
-        <h1 className="text-2xl font-bold mb-4">Receipts Report</h1>
+
+      <div className="min-h-screen bg-gray-100 p-6 flex-1">
+        <h1 className="text-2xl font-bold mb-4 mt-20">Receipts Report</h1>
         <button
           onClick={() => reactToPrintFn()}
           className="bg-indigo-500 text-white px-4 py-2 rounded hover:bg-indigo-600 transition mb-4"
         >
           Print Report
         </button>
+
         {/* Filters */}
         <div className="bg-white shadow-md rounded-lg p-4 mb-4">
           <h2 className="text-lg font-semibold mb-4">Filters</h2>
@@ -191,7 +211,7 @@ const Report = () => {
 
         {loading ? (
           <p className="text-gray-500">Loading receipts...</p>
-        ) : filteredReceipts.length === 0 ? (
+        ) : currentReceipts.length === 0 ? (
           <p className="text-gray-500">No receipts found.</p>
         ) : (
           <div
@@ -225,7 +245,7 @@ const Report = () => {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200">
-                {filteredReceipts.map((receipt) => (
+                {currentReceipts.map((receipt) => (
                   <tr key={receipt.id}>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                       {receipt.reference}
@@ -258,6 +278,28 @@ const Report = () => {
             </table>
           </div>
         )}
+
+        {/* Pagination */}
+        <div className="flex justify-center items-center mt-4">
+          <nav className="flex space-x-2">
+            {Array.from(
+              { length: Math.ceil(filteredReceipts.length / employeesPerPage) },
+              (_, i) => (
+                <button
+                  key={i}
+                  onClick={() => paginate(i + 1)}
+                  className={`px-4 py-2 rounded ${
+                    currentPage === i + 1
+                      ? "bg-indigo-500 text-white"
+                      : "bg-gray-200 text-gray-700"
+                  } hover:bg-indigo-600 hover:text-white transition`}
+                >
+                  {i + 1}
+                </button>
+              )
+            )}
+          </nav>
+        </div>
       </div>
     </div>
   );

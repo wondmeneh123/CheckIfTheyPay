@@ -2,8 +2,7 @@ import React from "react";
 
 const Header = ({ user, onLogout }) => {
   return (
-    <div className="bg-indigo-600 text-white p-4 flex items-center justify-between">
-      <h1 className="text-xl font-bold">Pyramid Hotel</h1>
+    <div className="bg-indigo-600 text-white p-4 flex items-center justify-end fixed w-full">
       {user ? (
         <div className="flex items-center space-x-4">
           <p>Welcome, {user.email}</p>
